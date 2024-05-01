@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="start-game">
+        <h1>The running of Zelda</h1>
+    </div>
+    <div class="start-game" id="start-button">
+        <button id="start-button-button">START RUNNING FOR YOUR LIFE</button>
+    </div>
+    <div class="game-screen">
+
+        <h2>Stats</h2>
+        <p>Score: <span id="score">0</span></p>
+        <p>Lives: <span id="lives">3</span></p>
+
+        <div class="game-map">
+            <div class="game-scene">
+                <div class="game-floor"></div>
+                <div id="player"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <audio id="start-audio" src="zeldaSong.mp3"></audio>
+    <script src="weboptions.js"></script>
+    <script src="playerActions.js"></script>
+</body>
+
+</html>
