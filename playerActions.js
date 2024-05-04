@@ -5,10 +5,15 @@ class Game {
     this.gameFloor = document.querySelector(".game-floor");
     this.gameSceneHeight = this.gameScene.offsetHeight;
     this.gameFloorHeight = this.gameFloor.offsetHeight;
-    this.player.style.left = "400px"
+    this.enemyObstacle = document.getElementById("obstacle");
+    this.player.style.left = "400px";
+    this.enemyObstacle.style.right="0px";
+    this.gameScene.style.width="1920px"
+    this.player.style.height ="50px"
     this.isGrounded = true;
     this.gravityForce = 0;
-    this.playerWalk= 0
+    this.playerWalk = 0;
+    this.obstacleSpeed = 0
     this.fallInterval;
     this.jumpInterval;
     this.keyAction();
@@ -18,15 +23,16 @@ class Game {
     document.addEventListener("keydown", (event) => {
       if (event.key === " " && this.isGrounded === true) {
         this.jump();
+        this.deadGravity();
         this.playerMovement();
-        this.deadGravity()
+        this.obstacleLoop();
       }
     });
   }
 
   jump() {
     let counter = 0;
-    this.isGrounded == false;
+    this.isGrounded = false;
     this.jumpInterval = setInterval(() => {
       console.log("jumping");
       this.gravityForce += 60 - (counter - 1) * 10;
@@ -63,27 +69,50 @@ class Game {
       }
     }, 80);
   }
-  playerMovement (){
-    let movementInterval= setInterval(()=>{
-      
-        this.playerWalk = 2;
-      
-        let currentPosition = parseInt(this.player.style.left);
-        console.log("I'm moving!", currentPosition);
-        this.player.style.left = `${currentPosition + this.playerWalk}px`;
+  playerMovement() {
+    let movementInterval = setInterval(() => {
+      this.playerWalk = 2;
+
+      let currentPosition = parseInt(this.player.style.left);
+     
+      this.player.style.left = `${currentPosition + this.playerWalk}px`;
     }, 100);
+  }
+  deadGravity() {
+    let deadGravityInterval = setInterval(() => {
+      this.playerAbsorb = -2;
+
+      let currentPosition = parseInt(this.player.style.left);
+      
+      this.player.style.left = `${currentPosition + this.playerAbsorb}px`;
+    }, 100);
+  }
+
+  obstacleLoop() {
+    
+    
+    let obstacleInterval = setInterval(() => {
+      this.obstacleCrash()
+     this.obstacleSpeed += 0.1
+      this.enemyObstacle.style.display = "flex";
+      console.log("I'm going to kill you!",this.enemyObstacle.style.right)
+      this.enemyObstacle.style.right = `${parseInt(this.enemyObstacle.style.right) + parseInt(this.obstacleSpeed)}px`
+      if(parseInt(this.enemyObstacle.style.right)>= parseInt(this.gameScene.style.width)){
+        this.enemyObstacle.style.right="0px"
+        this.obstacleSpeed= 0
+      }
+      if(this.obstacleSpeed >= 0.5){
+        this.osbstacleSpeed = 0.5
+      }
+      
+    },100);
+  }
+  obstacleCrash() {
+    if (parseInt(this.enemyObstacle.style.right) > parseInt(this.player.style.left)) {
+        let newPlayerPosition = parseInt(this.enemyObstacle.style.right) + parseInt(this.currentPosition);
+        this.player.style.left = `${parseInt(newPlayerPosition)}px`;
+    }
 }
- deadGravity(){
-  let deadGravityInterval=setInterval(()=>{
-  this.playerAbsorb = -2;
-      
-        let currentPosition = parseInt(this.player.style.left);
-        console.log("I'm getting absorbed!", currentPosition);
-        this.player.style.left = `${currentPosition + this.playerAbsorb}px`;
-    }, 100);
-
- }
-
 
 }
 

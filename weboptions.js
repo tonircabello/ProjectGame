@@ -15,6 +15,7 @@ function gameStart() {
 
         });
         startAudio.play();
+        
     });
 }
 gameStart();
