@@ -1,4 +1,5 @@
 function gameStart() {
+    const game = new Game()
     let button = document.getElementById("start-button-button");
     let startAudio = document.getElementById("start-audio");
     startAudio.volume = 0.2
@@ -15,7 +16,9 @@ function gameStart() {
 
         });
         startAudio.play();
-        
+        game.deadGravity();
+        game.playerMovement();
+        game.obstacleLoop();
     });
 }
 gameStart();

@@ -23,9 +23,6 @@ class Game {
     document.addEventListener("keydown", (event) => {
       if (event.key === " " && this.isGrounded === true) {
         this.jump();
-        this.deadGravity();
-        this.playerMovement();
-        this.obstacleLoop();
       }
     });
   }
@@ -93,6 +90,7 @@ class Game {
     
     let obstacleInterval = setInterval(() => {
       this.obstacleCrash()
+      this.didCollide()
      this.obstacleSpeed += 0.1
       this.enemyObstacle.style.display = "flex";
       console.log("I'm going to kill you!",this.enemyObstacle.style.right)
@@ -112,6 +110,24 @@ class Game {
         let newPlayerPosition = parseInt(this.enemyObstacle.style.right) + parseInt(this.currentPosition);
         this.player.style.left = `${parseInt(newPlayerPosition)}px`;
     }
+}
+
+didCollide() {
+  const playerRect = this.player.getBoundingClientRect();
+  const obstacleRect = this.enemyObstacle.getBoundingClientRect();
+
+  if (
+    playerRect.left < obstacleRect.right &&
+    playerRect.right > obstacleRect.left &&
+    playerRect.top < obstacleRect.bottom &&
+    playerRect.bottom > obstacleRect.top
+  ) {
+    // this.player.style.left = `${this.enemyObstacle.style.right + this.enemyObstacle.style.width}px` 
+    console.log('you died')
+    return true;
+  } else {
+    return false;
+  }
 }
 
 }
